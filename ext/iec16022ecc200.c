@@ -475,12 +475,12 @@ enum
 };
 
 unsigned char switchcost[E_MAX][E_MAX] = {
-   0, 1, 1, 1, 1, 2,            // From E_ASCII
-   1, 0, 2, 2, 2, 3,            // From E_C40
-   1, 2, 0, 2, 2, 3,            // From E_TEXT
-   1, 2, 2, 0, 2, 3,            // From E_X12
-   1, 2, 2, 2, 0, 3,            // From E_EDIFACT
-   0, 1, 1, 1, 1, 0,            // From E_BINARY
+    {0, 1, 1, 1, 1, 2},            // From E_ASCII
+    {1, 0, 2, 2, 2, 3},            // From E_C40
+    {1, 2, 0, 2, 2, 3},            // From E_TEXT
+    {1, 2, 2, 0, 2, 3},            // From E_X12
+    {1, 2, 2, 2, 0, 3},            // From E_EDIFACT
+    {0, 1, 1, 1, 1, 0},            // From E_BINARY
 };
 
 // Creates a encoding list (malloc)
@@ -495,7 +495,6 @@ unsigned char switchcost[E_MAX][E_MAX] = {
 static char *
 encmake (int l, unsigned char *s, int *lenp, char exact)
 {
-  VALUE rb_str = NULL;
    char *encoding = 0;
    int p = l;
    char e;
