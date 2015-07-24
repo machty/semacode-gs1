@@ -1,1 +1,1 @@
-require_relative '../ext/semacode_native'
+require 'semacode_native'
