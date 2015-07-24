@@ -892,6 +892,13 @@ iec16022ecc200 (int *Wptr, int *Hptr, char **encodingptr, int barcodelen, unsign
       rb_raise(rb_eRangeError,  "barcode too long for expected encoding");
       return 0;
    }
+
+   /* Set first character to GS1 <FNC1>. This replaces the first codeword, whatever it was, so
+    * make sure it is a single ASCII alphanumeric value (32-127) so it only occupies one byte. */
+
+   //printf("binary[1] = %d, encoding = %s\n", binary[1], encoding);
+   binary[0] = 232;
+
    // ecc code
    ecc200 (binary, matrix->bytes, matrix->datablock, matrix->rsblock);
    {                            // placement
