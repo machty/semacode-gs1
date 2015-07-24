@@ -1,4 +1,4 @@
-= Ruby Semacode Encoder
+# Ruby Semacode Encoder
 
 **NOTE**: This version of the semacode library replaces the first byte in the
 barcode you provide with the <FNC1> codeword character AKA ~1, ]d2 or <F1>. It
@@ -8,7 +8,7 @@ hard coding it at the right spot. I suggest you pass values like this:
 
     DataMatrix::Encoder.new('x' + my_actual_data)
 
-== Introduction
+## Introduction
 
 This Ruby extension implements a DataMatrix encoder for Ruby. It is typically
 used to create semacodes, which are barcodes, that contain URLs. This encoder
@@ -25,12 +25,12 @@ Once you have a visual representation of the semacode, you can use a reader,
 such as those from http://semacode.org on your camera phone, to capture the
 URL embedded in the semacode and proceed directly to that web site.
 
-=== License
+### License
 
 This software is released under the terms of the GNU Public License version 2,
 available from <http://www.gnu.org>
 
-=== Contact Information
+### Contact Information
 
 You can contact me via <guido@sohne.net> if you have patches, bug fixes or
 improvements.
@@ -38,11 +38,11 @@ improvements.
     Copyright (C) 2007, Guido Sohne
     Website: http://sohne.net/projects/semafox
 
-=== Credits
+### Credits
 
 Based on the iec16022ecc200.c encoder by Adrian Kennard, Andrews & Arnold Ltd
 
-== Quick Start
+## Quick Start
 
 Configure the extension to your local system and ruby
 
@@ -65,7 +65,7 @@ includes some code to generate a semacode using HTML and CSS, so that could
 end up being useful.
 
 
-== USAGE
+## USAGE
 
 Here's some basic ways in which you can make use of this extension. It tries
 to show by example, how the semacodes can be created and what can be done with
@@ -143,7 +143,7 @@ Count the ECC bytes
     semacode.ecc_bytes
 
 
-== NOTES
+## NOTES
 
 The C code can throw runtime exceptions. Be sure to include
 a catch block if you want to use this in production. Mostly
