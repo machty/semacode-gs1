@@ -1,5 +1,13 @@
 = Ruby Semacode Encoder
 
+**NOTE**: This version of the semacode library replaces the first byte in the
+barcode you provide with the <FNC1> codeword character AKA ~1, ]d2 or <F1>. It
+was the only way I could figure out to insert this character, as the Ruby
+wrapper and even the C library do not provide a way I could do this besides
+hard coding it at the right spot. I suggest you pass values like this:
+
+    DataMatrix::Encoder.new('x' + my_actual_data)
+
 == Introduction
 
 This Ruby extension implements a DataMatrix encoder for Ruby. It is typically
@@ -27,36 +35,36 @@ available from <http://www.gnu.org>
 You can contact me via <guido@sohne.net> if you have patches, bug fixes or
 improvements.
 
-  Copyright (C) 2007, Guido Sohne
-  Website: http://sohne.net/projects/semafox
-  
+    Copyright (C) 2007, Guido Sohne
+    Website: http://sohne.net/projects/semafox
+
 === Credits
 
-Based on the iec16022ecc200.c encoder by Adrian Kennard, Andrews & Arnold Ltd 
+Based on the iec16022ecc200.c encoder by Adrian Kennard, Andrews & Arnold Ltd
 
 == Quick Start
 
 Configure the extension to your local system and ruby
 
-  <tt>ruby extconf.rb</tt>
-  
+    ruby extconf.rb
+
 Build the extension
 
-  <tt>make</tt>
-  
+    make
+
 Test that it works
 
-  <tt>ruby test.rb</tt>
-  
+    ruby test.rb
+
 Install the extension (you may need to become root)
 
-  <tt>make install</tt>
-  
+    make install
+
 You should take a look at tests/test.rb to understand how to use this. It
 includes some code to generate a semacode using HTML and CSS, so that could
 end up being useful.
-  
-  
+
+
 == USAGE
 
 Here's some basic ways in which you can make use of this extension. It tries
@@ -66,73 +74,73 @@ or to a semacode object.
 
 Include this library
 
-  <tt>require 'rubygems'</tt>
-  <tt>require 'semacode'</tt>
+    require 'rubygems'
+    require 'semacode'
 
 Create a semacode
 
-  <tt>semacode = Barcode::Semacode.new "http://sohne.net/projects/semafox/"</tt>
+    semacode = Barcode::Semacode.new "http://sohne.net/projects/semafox/"
 
 Return the semacode as an array of arrays of boolean
 
-  The first element of the array is the top row, the last element is the 
-  bottom row. the array length is the semacode height, and each element is 
-  an array as wide as the semacode width
+    The first element of the array is the top row, the last element is the
+    bottom row. the array length is the semacode height, and each element is
+    an array as wide as the semacode width
 
-  <tt>grid = semacode.data</tt> or
-  <tt>grid = semacode.to_a</tt> or  
+    grid = semacode.data or
+    grid = semacode.to_a or
 
 Return the encoding list used to create the semacode
 
-  This encoding list is composed of the 'character set', complete with
-  shifts from one encoding type to another, that is used for the DataMatrix
-  algorithm.
-  
-  <tt>encoding = semacode.encoding</tt>
+    This encoding list is composed of the 'character set', complete with
+    shifts from one encoding type to another, that is used for the DataMatrix
+    algorithm.
+
+    encoding = semacode.encoding
 
 Return the semacode as a string
 
-  The string is a comma separated list of character vectors. Each vector is a row
-  in the semacode symbol, the top row is first, and the bottom row is last. Inside
-  each row, the vector reads from left to right.
-  
-  <tt>semacode.to_s</tt> or
-  <tt>semacode.to_str</tt>
+    The string is a comma separated list of character vectors. Each vector is a row
+    in the semacode symbol, the top row is first, and the bottom row is last. Inside
+    each row, the vector reads from left to right.
+
+    semacode.to_s or
+    semacode.to_str
 
 Encode another string
 
-  <tt>semacode.encode "http://sohne.net"</tt>
+    semacode.encode "http://sohne.net"
 
 Get the width of the semacode
 
-  <tt>semacode.width</tt>
+    semacode.width
 
 Get the height of the semacode
 
-  <tt>semacode.height</tt>
+    semacode.height
 
 How long is the semacode? (width * height)
 
-  <tt>semacode.length</tt> or
-  <tt>semacode.size</tt>
+    semacode.length or
+    semacode.size
 
 Get the raw encoded length (before padding and before ECC)
 
-  <tt>semacode.raw_encoded_length</tt>
+    semacode.raw_encoded_length
 
 Get the symbol size
 
-  The max number of characters this semacode type 
-  (specific width x height) can hold is called the
-  symbol size.
+    The max number of characters this semacode type
+    (specific width x height) can hold is called the
+    symbol size.
 
-  <tt>semacode.symbol_size</tt>
+    semacode.symbol_size
 
 Count the ECC bytes
-  
-  How many bytes were used for error correction?
 
-  <tt>semacode.ecc_bytes</tt>
+    How many bytes were used for error correction?
+
+    semacode.ecc_bytes
 
 
 == NOTES
