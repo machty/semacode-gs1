@@ -54,16 +54,20 @@ encode_string(semacode_t *semacode, int message_length, char *message, int encod
 
   bzero(semacode, sizeof(semacode_t));
 
-  semacode->encoding = encoding;
+  if (encoding_length > 0) {
+    // don't free ruby strings
+    char *enc = (char*)malloc(encoding_length*sizeof(char));
+    strncpy(enc, encoding, encoding_length*sizeof(char));
+    semacode->encoding = enc;
+  }
 
   // work around encoding bug by appending an extra character.
-  message_length++;
-  char *msg = (char*)malloc(message_length*sizeof(char));
+  char *msg = (char*)calloc(message_length + 1, sizeof(char));
   strncpy(msg, message, message_length*sizeof(char));
   strcat(msg, " ");
 
   // choose the best grid that will hold our message
-  iec16022init(&semacode->width, &semacode->height, message);
+  iec16022init(&semacode->width, &semacode->height, msg);
 
   // encode the actual data
   semacode->data = (char *) iec16022ecc200(
@@ -125,9 +129,14 @@ semacode_allocate(VALUE klass)
 
 */
 static VALUE
-semacode_init(VALUE self, VALUE message, VALUE encoding)
+semacode_init(int argc, VALUE* argv, VALUE self)
 {
   semacode_t *semacode;
+  VALUE message, encoding;
+  rb_scan_args(argc, argv, "11", &message, &encoding);
+
+ if (NIL_P(encoding))
+        encoding = rb_str_new2("");
 
   if (!rb_respond_to(message, rb_intern ("to_s")))
       rb_raise(rb_eRuntimeError, "target must respond to 'to_s'");
@@ -374,7 +383,7 @@ Init_semacode_native()
 
   rb_define_alloc_func(rb_cEncoder, semacode_allocate);
 
-  rb_define_method(rb_cEncoder, "initialize", semacode_init, 2);
+  rb_define_method(rb_cEncoder, "initialize", semacode_init, -1);
   rb_define_method(rb_cEncoder, "encode", semacode_encode, 2);
   rb_define_method(rb_cEncoder, "to_a", semacode_data, 0);
   rb_define_method(rb_cEncoder, "data", semacode_data, 0);
