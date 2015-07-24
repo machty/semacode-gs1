@@ -1,10 +1,10 @@
 # Ruby Semacode Encoder
 
 **NOTE**: This version of the semacode library replaces the first byte in the
-barcode you provide with the <FNC1> codeword character AKA ~1, ]d2 or <F1>. It
-was the only way I could figure out to insert this character, as the Ruby
-wrapper and even the C library do not provide a way I could do this besides
-hard coding it at the right spot. I suggest you pass values like this:
+barcode you provide with the `<FNC1>` codeword character AKA `~1`, `]d2` or
+`<F1>`. It was the only way I could figure out to insert this character, as the
+Ruby wrapper and even the C library do not provide a way I could do this
+besides hard coding it at the right spot. I suggest you pass values like this:
 
     DataMatrix::Encoder.new('x' + my_actual_data)
 
